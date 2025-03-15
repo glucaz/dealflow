@@ -263,7 +263,7 @@ export default function SalesTracker() {
       )}
 
       {/* New Deal Steps */}
-      {currentStep && (
+           {currentStep && (
         <div className="fixed inset-0 bg-white flex flex-col items-center justify-center slide-in">
           <Button variant="outline" className="absolute top-4 left-4" onClick={() => setCurrentStep(null)}>
             Back
@@ -313,9 +313,6 @@ export default function SalesTracker() {
           )}
         </div>
       )}
-
-      {/* Alpha 1 */}
-      <p className="absolute bottom-0 left-0 text-xs text-gray-500 p-2">Alpha 1</p>
     </div>
   );
 }
