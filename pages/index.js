@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function SalesTracker() {
   // Set initial month and year to current month and year
   const currentDate = new Date();
-  const initialMonth = currentDate.toLocaleString('default', { month: 'long' });
+  const initialMonth = currentDate.toLocaleString("default", { month: "long" });
   const initialYear = currentDate.getFullYear();
 
   const [month, setMonth] = useState(initialMonth);
@@ -20,12 +20,12 @@ export default function SalesTracker() {
 
   // Save deals to local storage whenever deals state is updated
   useEffect(() => {
-    localStorage.setItem('deals', JSON.stringify(deals));
+    localStorage.setItem("deals", JSON.stringify(deals));
   }, [deals]);
 
   // Retrieve deals from local storage when the component mounts
   useEffect(() => {
-    const storedDeals = localStorage.getItem('deals');
+    const storedDeals = localStorage.getItem("deals");
     if (storedDeals) {
       setDeals(JSON.parse(storedDeals));
     }
@@ -76,7 +76,7 @@ export default function SalesTracker() {
 
   const calculateAfterTaxIncome = (filteredDeals) => {
     const grossIncome = 1950 + filteredDeals.reduce((sum, deal) => sum + deal.commission, 0);
-    let yearlyIncome = grossIncome * 12;
+    const yearlyIncome = grossIncome * 12;
 
     let tax = 0,
       ni = 0;
@@ -94,7 +94,7 @@ export default function SalesTracker() {
     return (yearlyIncome - tax - ni) / 12;
   };
 
-  const filteredDeals = deals.filter(deal => {
+  const filteredDeals = deals.filter((deal) => {
     const dealDate = new Date(deal.date);
     const selectedMonth = new Date(`${month} 1, ${year}`);
     return (
@@ -104,7 +104,7 @@ export default function SalesTracker() {
   });
 
   return (
-    <div className="p-4 max-w-md mx-auto font-sans text-gray-800 relative">
+        <div className="p-4 max-w-md mx-auto font-sans text-gray-800 relative">
       <style jsx>{`
         .overlay {
           position: fixed;
@@ -124,58 +124,27 @@ export default function SalesTracker() {
           animation: fadeIn 0.5s ease-in-out;
         }
         @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .button-hover:hover {
-          background-color: #ff6666;
-          transition: background-color 0.2s ease-in-out;
-        }
-        .slide-in {
-          animation: slideIn 0.3s ease-in-out forwards;
-        }
-        @keyframes slideIn {
-          from { transform: translateY(100px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        .fill-up {
-          animation: fillUp 1s ease-in-out forwards;
-        }
-        @keyframes fillUp {
-          from { width: 0; }
-          to { width: var(--width); }
-        }
-        .rounded-input {
-          border-radius: 20px;
-        }
-        .modern-button {
-          background-color: #ff6666;
-          color: white;
-          padding: 10px 20px;
-          border-radius: 20px;
-          transition: background-color 0.3s ease-in-out;
-        }
-        .modern-button:hover {
-          background-color: #cc5555;
-        }
-        .card-modern {
-          border-radius: 20px;
-          background-color: white;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .card-content-modern {
-          padding: 20px;
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
       `}</style>
 
       {/* White Overlay */}
-      <div className={`overlay ${showOverlay ? '' : 'hidden'}`} />
+      <div className={`overlay ${showOverlay ? "" : "hidden"}`} />
 
       {/* Month Selector */}
       <div className="flex justify-between items-center mb-4 fade-in">
-        <Button className="modern-button" onClick={() => setYear(year - 1)}>{"<"}</Button>
+        <Button className="modern-button" onClick={() => setYear(year - 1)}>
+          {"<"}
+        </Button>
         <h2 className="text-xl font-bold">{year}</h2>
-        <Button className="modern-button" onClick={() => setYear(year + 1)}>{">"}</Button>
+        <Button className="modern-button" onClick={() => setYear(year + 1)}>
+          {">"}
+        </Button>
       </div>
 
       <select
@@ -184,26 +153,41 @@ export default function SalesTracker() {
         onChange={(e) => setMonth(e.target.value)}
       >
         {[
-          "January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
         ].map((m) => (
-          <option key={m} value={m}>{m}</option>
+          <option key={m} value={m}>
+            {m}
+          </option>
         ))}
       </select>
 
-      {/* Commission Box */}
+      {/* Commission and Income Boxes */}
       <Card className="mt-4 fade-in card-modern">
         <CardContent className="text-center card-content-modern">
           <p className="text-sm font-medium">Commission Earned</p>
-          <p className="text-2xl font-bold">£{filteredDeals.reduce((sum, deal) => sum + deal.commission, 0)}</p>
+          <p className="text-2xl font-bold">
+            £{filteredDeals.reduce((sum, deal) => sum + deal.commission, 0)}
+          </p>
         </CardContent>
       </Card>
 
-      {/* After Tax Income */}
       <Card className="mt-2 fade-in card-modern">
         <CardContent className="text-center card-content-modern">
           <p className="text-sm font-medium">After Tax Income</p>
-          <p className="text-2xl font-bold">£{calculateAfterTaxIncome(filteredDeals).toFixed(2)}</p>
+          <p className="text-2xl font-bold">
+            £{calculateAfterTaxIncome(filteredDeals).toFixed(2)}
+          </p>
         </CardContent>
       </Card>
 
@@ -215,12 +199,20 @@ export default function SalesTracker() {
       {/* Sliders */}
       <div className="mt-4 fade-in">
         {["GARD X", "Cosmetic", "Finance"].map((product, index) => {
-          const percentage = (filteredDeals.filter((deal) => deal.products.includes(product)).length / filteredDeals.length) * 100 || 0;
+          const percentage =
+            (filteredDeals.filter((deal) => deal.products.includes(product)).length /
+              filteredDeals.length) *
+              100 || 0;
           return (
             <div key={index} className="mb-2">
-              <p className="text-sm font-medium">{product}: {percentage.toFixed(1)}%</p>
-                           <div className="w-full bg-gray-200 h-3 rounded overflow-hidden">
-                <div className={`h-full bg-red-500 ${animateSliders ? 'fill-up' : ''}`} style={{ "--width": `${Math.min(percentage, 100)}%` }}></div>
+              <p className="text-sm font-medium">
+                {product}: {percentage.toFixed(1)}%
+              </p>
+              <div className="w-full bg-gray-200 h-3 rounded overflow-hidden">
+                <div
+                  className={`h-full bg-red-500 ${animateSliders ? "fill-up" : ""}`}
+                  style={{ "--width": `${Math.min(percentage, 100)}%` }}
+                ></div>
               </div>
             </div>
           );
@@ -263,14 +255,14 @@ export default function SalesTracker() {
       )}
 
       {/* New Deal Steps */}
-           {currentStep && (
+      {currentStep && (
         <div className="fixed inset-0 bg-white flex flex-col items-center justify-center slide-in">
           <Button variant="outline" className="absolute top-4 left-4" onClick={() => setCurrentStep(null)}>
             Back
           </Button>
           {currentStep === "name" && (
             <>
-              <p className="text-lg font-medium">What is the customer's name?</p>
+              <p className="text-lg font-medium">What is the customer&apos;s name?</p>
               <input
                 className="border p-2 w-64 mt-2 rounded-input"
                 value={newDeal.name}
@@ -290,7 +282,12 @@ export default function SalesTracker() {
                 value={newDeal.date}
                 onChange={(e) => setNewDeal({ ...newDeal, date: e.target.value })}
               />
-              <Button className="mt-2 modern-button" onClick={() => setNewDeal({ ...newDeal, date: new Date().toISOString().split('T')[0] })}>
+              <Button
+                className="mt-2 modern-button"
+                onClick={() =>
+                  setNewDeal({ ...newDeal, date: new Date().toISOString().split("T")[0] })
+                }
+              >
                 Today
               </Button>
               <Button className="mt-4 modern-button" onClick={handleDateSubmit}>
@@ -303,7 +300,12 @@ export default function SalesTracker() {
               <p className="text-lg font-medium">What products?</p>
               {["GARD X", "Cosmetic", "Finance"].map((product) => (
                 <label key={product} className="block mt-2">
-                  <input type="checkbox" checked={newDeal.products.includes(product)} onChange={() => handleProductToggle(product)} /> {product}
+                  <input
+                    type="checkbox"
+                    checked={newDeal.products.includes(product)}
+                    onChange={() => handleProductToggle(product)}
+                  />{" "}
+                  {product}
                 </label>
               ))}
               <Button className="mt-4 modern-button" onClick={finalizeDeal}>
